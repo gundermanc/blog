@@ -8,14 +8,15 @@ Version one of the task failed with something similar to 'Cmdlet Error, path too
 
 ## Problem
 
-It turns out that the error message is actually incorrect and that the real problem is that I was exceeding the Powershell max *parameter count* because we were using the following VSTS-default minimatch pattern to enumerate the test assemblies:
+It turns out that the error message is actually incorrect and that the real problem is that I was exceeding the Windows max *parameter count* because we were using the following VSTS-default minimatch pattern to enumerate the test assemblies:
 
 `
 **\*test*.dll
+
 !**\obj\**
 `
 
-This pattern matches names like *FooTestHost.dll*, *FooTestHelper.dll*, and *FooTestFramework.dll*, of which, there were about 10 of each copied to each unit test project as copy-local dependencies, resulting in my file enumeration to grab more than 10 times the number of actual test assembly paths, exceeding the max parameter count.
+This pattern matches names like *FooTestHost.dll*, *FooTestHelper.dll*, and *FooTestFramework.dll*, of which, there were about 10 of each copied to each unit test project as copy-local dependencies, resulting in my file enumeration grabbing more than 10 times the number of actual test assembly paths, exceeding the max parameter count.
 
 ## Solution
 
